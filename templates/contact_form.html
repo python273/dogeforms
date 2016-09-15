@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block styles %}
+  <style>
+    #container {
+      margin-top: 25vh;
+    }
+
+    #contact-form-container {
+      width: 20vw;
+    }
+
+    .doge {
+      width: 20vw;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+  </style>
+{% endblock %}
+
+{% block container %}
+  <div id="container" class="row">
+    <h1 class="text-center">Dogeforms</h1>
+
+    <div id="contact-form-container" class="center-block">
+      <form id="contact-form" action="." method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+          <label for="id_email">Email address</label>
+          {{ form.email|add_class:"form-control" }}
+        </div>
+
+        <div class="form-group">
+          <label for="id_message">Message</label>
+          {{ form.message|add_class:"form-control"|attr:"rows:3" }}
+        </div>
+
+        <div class="form-group pull-right">
+          <button id="contact-form-submit" class="btn btn-default">Send</button>
+        </div>
+
+        <div class="clr"></div>
+      </form>
+
+      <div id="doge" style="display: none;">
+        <img class="doge" src="https://python273.pw/static/doge.png"/>
+      </div>
+
+    </div>
+  </div>
+{% endblock %}
+
+{% block script %}
+  <script>
+    $.dogeform({
+      formId: 'contact-form',
+      submitBtnId: 'contact-form-submit',
+      success: function (response) {
+        $('#contact-form').hide();
+        $('#doge').show();
+      }
+    });
+  </script>
+{% endblock %}
