@@ -41,6 +41,24 @@ Dogeforms - Simple Django AJAX forms
 </script>
 ```
 
+Создайте view
+```python
+class ContactFormView(View):
+    def get(self, request):
+        return render(request, 'contact_form.html', {
+            'form': ContactForm()
+        })
+
+    def post(self, request):
+        form = ContactForm(request.POST)
+
+        if form.is_valid():
+            send_message(form.cleaned_data['message'])
+            return JsonResponse({'ok': True, 'redirect': reverse('success')})
+
+        return JsonResponse({'errors': form.errors})
+```
+
 ## API
 ### Dogeform параметры
 * formId - ID формы
